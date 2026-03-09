@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reloj</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Cinzel:wght@500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+background:black;
+color:white;
+margin:0;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-family:'Orbitron',sans-serif;
+transition:0.4s;
+}
+
+#clock{
+font-size:90px;
+letter-spacing:4px;
+text-align:center;
+margin-bottom:50px;
+}
+
+#controls{
+position:fixed;
+bottom:25px;
+display:flex;
+gap:12px;
+}
+
+button{
+background:rgba(255,255,255,0.1);
+color:inherit;
+border:1px solid rgba(255,255,255,0.3);
+padding:10px 18px;
+border-radius:20px;
+font-size:16px;
+cursor:pointer;
+backdrop-filter:blur(5px);
+transition:0.3s;
+}
+
+button:hover{
+background:rgba(255,255,255,0.25);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="clock"></div>
+
+<div id="controls">
+<button onclick="toggleTheme()">Tema</button>
+<button onclick="changeSize(-10)">−</button>
+<button onclick="changeSize(10)">+</button>
+<button onclick="changeFont()">Fuente</button>
+</div>
+
+<script>
+
+let fontSize = 90;
+
+let fonts = [
+"'Orbitron', sans-serif",
+"'Share Tech Mono', monospace",
+"'Cinzel', serif",
+"Arial",
+"'Courier New'"
+];
+
+let fontIndex = 0;
+
+function updateClock(){
+
+let now = new Date();
+
+let h = now.getHours();
+let m = now.getMinutes();
+let s = now.getSeconds();
+
+let ampm = h >= 12 ? "PM" : "AM";
+
+h = h % 12;
+h = h ? h : 12;
+
+m = m < 10 ? "0"+m : m;
+s = s < 10 ? "0"+s : s;
+
+document.getElementById("clock").innerHTML =
+h + ":" + m + ":" + s + " " + ampm;
+
+}
+
+function toggleTheme(){
+
+if(document.body.style.background=="white"){
+document.body.style.background="black";
+document.body.style.color="white";
+}else{
+document.body.style.background="white";
+document.body.style.color="black";
+}
+
+}
+
+function changeSize(value){
+
+fontSize += value;
+
+if(fontSize < 30) fontSize = 30;
+
+document.getElementById("clock").style.fontSize =
+fontSize + "px";
+
+}
+
+function changeFont(){
+
+fontIndex++;
+
+if(fontIndex >= fonts.length) fontIndex = 0;
+
+document.getElementById("clock").style.fontFamily =
+fonts[fontIndex];
+
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+</script>
+
+</body>
+</html>
